@@ -33,7 +33,7 @@
 
    <groupId>com.zaxxer</groupId>
    <artifactId>HikariCP</artifactId>
-   <version>4.0.3</version>
+   <version>4.0.3-fix-20230425</version>
    <packaging>bundle</packaging>
 
    <name>HikariCP</name>
@@ -332,55 +332,6 @@
             </configuration>
          </plugin>
 
-         <plugin>
-            <!-- The Docker Maven plugin is used to create docker image with the fat jar -->
-            <groupId>io.fabric8</groupId>
-            <artifactId>docker-maven-plugin</artifactId>
-            <version>${docker.maven.plugin.fabric8.version}</version>
-            <configuration>
-               <logDate>default</logDate>
-               <autoPull>true</autoPull>
-               <images>
-                  <!-- Postgres Image is used 'as-is' and iked into the service s linimage -->
-                  <image>
-                     <alias>db</alias>
-                     <name>postgres:11</name>
-                     <run>
-                        <env>
-                           <POSTGRES_PASSWORD>password</POSTGRES_PASSWORD>
-                        </env>
-                        <wait>
-                           <log>database system is ready to accept connections</log>
-                           <time>20000</time>
-                        </wait>
-                        <log>
-                           <prefix>DB</prefix>
-                           <color>yellow</color>
-                        </log>
-                     </run>
-                  </image>
-               </images>
-            </configuration>
-
-            <!-- Hooking into the lifecycle -->
-            <executions>
-               <execution>
-                  <id>start</id>
-                  <phase>pre-integration-test</phase>
-                  <goals>
-                     <goal>build</goal>
-                     <goal>start</goal>
-                  </goals>
-               </execution>
-               <execution>
-                  <id>stop</id>
-                  <phase>post-integration-test</phase>
-                  <goals>
-                     <goal>stop</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
 
          <plugin>
             <groupId>org.jacoco</groupId>
